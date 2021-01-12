@@ -120,7 +120,7 @@ type InstanceData struct {
 }
 
 func (i InstanceData) buildURL() string {
-	return "https://" + i.domain + "/remote.php/dav/files/" + i.user + "/" + i.file
+	return "https://" + i.domain + "/remote.php/dav/files/" + i.user + "/Illiux/BI/" + start.Year() + "-" + start.Day() + "/" + i.file
 }
 
 var fileMapper = map[string]string{
