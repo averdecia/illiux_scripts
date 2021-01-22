@@ -11,6 +11,7 @@ import (
 	"math"
 	"net/http"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"sync"
@@ -120,7 +121,8 @@ type InstanceData struct {
 }
 
 func (i InstanceData) buildURL() string {
-	return "https://" + i.domain + "/remote.php/dav/files/" + i.user + "/Illiux/BI/" + start.Year() + "-" + start.Day() + "/" + i.file
+	year, month, day := time.Now().Date()
+	return "https://" + i.domain + "/remote.php/dav/files/" + i.user + "/Illiux/BI/" + year + "-" + int(month) + "/" + i.file
 }
 
 var fileMapper = map[string]string{
@@ -218,11 +220,7 @@ func getArgs() Args {
 		os.Exit(0)
 	}
 
-	routines, err := strconv.Atoi(args[2])
-	if err != nil {
-		fmt.Printf("Not int parameter routines: %v, using default 10\n", routines)
-		routines = 10
-	}
+	routines, _ := strconv.Atoi(args[2])
 
 	return Args{
 		Command:    args[0],
@@ -248,17 +246,37 @@ func printProgress() {
 
 func executeAction(element Row, outputPointer *csv.Writer) {
 	resp, err := createRequest(element)
-	if err != nil {
-		fmt.Printf("Server error: %v", err)
+	matches, body := getBorrarCode(resp)
+
+	if err != nil || len(matches) < 2 || matches[1] != "0" {
 		failedUsersCount++
-		outputPointer.Write(element.toArray(strconv.Itoa(resp.StatusCode), err.Error()))
+		if err != nil {
+			fmt.Printf("Server error: %v", err)
+			outputPointer.Write(element.toArray(strconv.Itoa(resp.StatusCode), err.Error()))
+		} else if len(matches) == 2 {
+			outputPointer.Write(element.toArray(strconv.Itoa(resp.StatusCode), "Response Code: "+matches[1]))
+		} else {
+			outputPointer.Write(element.toArray(strconv.Itoa(resp.StatusCode), "Response, "+body))
+		}
 		outputPointer.Flush()
 		return
 	}
 
+	fmt.Printf("Response Code: %s \n", matches[1])
+	//fmt.Printf("Response: %v", body)
 	successUsersCount++
 	defer resp.Body.Close()
 
+}
+
+func getBorrarCode(resp *http.Response) ([]string, string) {
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(resp.Body)
+	body := buf.String()
+
+	re := regexp.MustCompile("codigo&gt;(.*?)&lt;/codigo")
+	match := re.FindStringSubmatch(body)
+	return match, body
 }
 
 func createRequest(row Row) (*http.Response, error) {
@@ -334,7 +352,7 @@ func definedOrEmpty(arr []string, pos int) string {
 func closeOutputWriter(pointer *csv.Writer, file *os.File, path string) {
 	pointer.Flush()
 	file.Close()
-	os.Remove(path)
+	//os.Remove(path)
 }
 
 func downloadFile(instance InstanceData) string {
