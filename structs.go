@@ -70,20 +70,20 @@ func (r *Row) toArray(statusCode string, message string) []string {
 // NewRow create and object from a string array
 func NewRow(element []string) *Row {
 	return &Row{
-		UserID:           element[0],
-		IDSubscripcion:   element[1],
-		Nombre:           element[2],
-		Item:             element[3],
-		Leyenda:          element[4],
-		FechaInicio:      element[5],
-		FechaInicioCiclo: element[6],
-		IDPago:           element[7],
-		CodigoPromo:      element[8],
-		NombreUser:       element[9],
-		ApellidoPaterno:  element[10],
-		Email:            element[11],
-		TelefonoTelmex:   element[12],
-		FormaDePago:      element[13],
+		UserID:           definedOrEmpty(element, 0),
+		IDSubscripcion:   definedOrEmpty(element, 1),
+		Nombre:           definedOrEmpty(element, 2),
+		Item:             definedOrEmpty(element, 3),
+		Leyenda:          definedOrEmpty(element, 4),
+		FechaInicio:      definedOrEmpty(element, 5),
+		FechaInicioCiclo: definedOrEmpty(element, 6),
+		IDPago:           definedOrEmpty(element, 7),
+		CodigoPromo:      definedOrEmpty(element, 8),
+		NombreUser:       definedOrEmpty(element, 9),
+		ApellidoPaterno:  definedOrEmpty(element, 10),
+		Email:            definedOrEmpty(element, 11),
+		TelefonoTelmex:   definedOrEmpty(element, 12),
+		FormaDePago:      definedOrEmpty(element, 13),
 	}
 }
 
@@ -117,4 +117,11 @@ func GetArgs(args []string) Args {
 		NCUser:     args[6],
 		NCToken:    args[7],
 	}
+}
+
+func definedOrEmpty(arr []string, pos int) string {
+	if len(arr) >= pos+1 {
+		return arr[pos]
+	}
+	return ""
 }
