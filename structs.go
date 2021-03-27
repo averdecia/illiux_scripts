@@ -15,10 +15,12 @@ const (
 	Add ValidCommands = "add"
 	// Delete will remove a client and his subs
 	Delete ValidCommands = "delete"
+	// Delete will remove a client and his subs
+	Mail ValidCommands = "mail"
 )
 
 func (e ValidCommands) String() string {
-	commands := [...]string{"add", "delete"}
+	commands := [...]string{"add", "delete", "mail"}
 	x := string(e)
 	for _, v := range commands {
 		if strings.ToLower(v) == strings.ToLower(x) {
@@ -64,6 +66,29 @@ func (r *Row) toArray(statusCode string, message string) []string {
 		r.FormaDePago,
 		statusCode,
 		message,
+	}
+}
+
+// MailRow is the struct for the csv
+type MailRow struct {
+	Email          string
+	GamificationID string
+}
+
+func (r *MailRow) toArray(statusCode string, message string) []string {
+	return []string{
+		r.Email,
+		r.GamificationID,
+		statusCode,
+		message,
+	}
+}
+
+// NewMailRow is the struct for mail csv
+func NewMailRow(element []string) *MailRow {
+	return &MailRow{
+		Email:          definedOrEmpty(element, 0),
+		GamificationID: definedOrEmpty(element, 1),
 	}
 }
 
@@ -124,4 +149,9 @@ func definedOrEmpty(arr []string, pos int) string {
 		return arr[pos]
 	}
 	return ""
+}
+
+// EngResponse used to track en engagement responses
+type EngResponse struct {
+	Status string `json:"status,omitempty"`
 }

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"regexp"
 	"time"
 )
 
@@ -15,7 +14,7 @@ type AddSubscriptionCommand struct {
 
 // ExecuteAction implements ICommand interface
 func (c *AddSubscriptionCommand) ExecuteAction(element []string) (string, error) {
-	fmt.Printf("Element: %v", element)
+	fmt.Printf("Element: %v \n", element)
 	user := NewRow(element)
 
 	resp, err := c.handleClient(user)
@@ -35,12 +34,13 @@ func (c AddSubscriptionCommand) handleClient(user *Row) (string, error) {
 
 	_, err := c.getClient(user.UserID)
 	if err != nil {
-		fmt.Printf("User not found: %v", err)
+		fmt.Printf("User not found, Inserting: %v \n", err)
 		_, err := c.insertOrUpdate(AdicionarClienteBody, user)
 		if err != nil {
 			return "Fail", err
 		}
 	} else {
+		fmt.Printf("User found, Updating: %v \n", user.UserID)
 		_, err := c.insertOrUpdate(ActualizarClienteBody, user)
 		if err != nil {
 			return "Fail", err
@@ -56,30 +56,13 @@ func (c AddSubscriptionCommand) getClient(userid string) (string, error) {
 	rbody := fmt.Sprintf(ObtenerClienteBody,
 		userid,
 	)
+	fmt.Println(rbody)
 	request, _ := http.NewRequest("POST", c.args.Endpoint+"/dla/soap/", bytes.NewBuffer([]byte(rbody)))
 	request.Header.Set("Authorization", "Basic "+c.args.AuthToken)
 	request.Header.Set("Content-Type", "text/xml")
 
 	resp, err := client.Do(request)
-	if err != nil {
-		fmt.Printf("Endpoint: %s, Body: %s", c.args.Endpoint, rbody)
-		fmt.Printf("Cannot connect to server: %v", err)
-		return "Error", err
-	}
-	defer resp.Body.Close()
-
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
-	body := buf.String()
-
-	re := regexp.MustCompile("codigo&gt;(.*?)&lt;/codigo")
-	matches := re.FindStringSubmatch(body)
-
-	if len(matches) < 2 || matches[1] != "0" {
-		return "Error", fmt.Errorf("Error code: %v", matches)
-	}
-
-	return resp.Status, nil
+	return CheckResponseCode(resp, err)
 }
 
 func (c AddSubscriptionCommand) insertOrUpdate(bodyvar string, user *Row) (string, error) {
@@ -92,32 +75,15 @@ func (c AddSubscriptionCommand) insertOrUpdate(bodyvar string, user *Row) (strin
 		user.ApellidoPaterno,
 		user.Email,
 		user.TelefonoTelmex,
-		user.FormaDePago,
+		"2", //user.FormaDePago,
 	)
+	fmt.Println(rbody)
 	request, _ := http.NewRequest("POST", c.args.Endpoint+"/dla/soap/", bytes.NewBuffer([]byte(rbody)))
 	request.Header.Set("Authorization", "Basic "+c.args.AuthToken)
 	request.Header.Set("Content-Type", "text/xml")
 
 	resp, err := client.Do(request)
-	if err != nil {
-		fmt.Printf("Endpoint: %s, Body: %s", c.args.Endpoint, rbody)
-		fmt.Printf("Cannot connect to server: %v", err)
-		return "Error", err
-	}
-	defer resp.Body.Close()
-
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
-	body := buf.String()
-
-	re := regexp.MustCompile("codigo&gt;(.*?)&lt;/codigo")
-	matches := re.FindStringSubmatch(body)
-
-	if len(matches) < 2 || matches[1] != "0" {
-		return "Error", fmt.Errorf("Error code: %v", matches)
-	}
-
-	return resp.Status, nil
+	return CheckResponseCode(resp, err)
 }
 
 func (c AddSubscriptionCommand) addSubscription(bodyvar string, user *Row) (string, error) {
@@ -135,28 +101,11 @@ func (c AddSubscriptionCommand) addSubscription(bodyvar string, user *Row) (stri
 		user.IDPago,
 		user.CodigoPromo,
 	)
+	fmt.Println(rbody)
 	request, _ := http.NewRequest("POST", c.args.Endpoint+"/dla/soap/", bytes.NewBuffer([]byte(rbody)))
 	request.Header.Set("Authorization", "Basic "+c.args.AuthToken)
 	request.Header.Set("Content-Type", "text/xml")
 
 	resp, err := client.Do(request)
-	if err != nil {
-		fmt.Printf("Endpoint: %s, Body: %s", c.args.Endpoint, rbody)
-		fmt.Printf("Cannot connect to server: %v", err)
-		return "Error", err
-	}
-	defer resp.Body.Close()
-
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(resp.Body)
-	body := buf.String()
-
-	re := regexp.MustCompile("codigo&gt;(.*?)&lt;/codigo")
-	matches := re.FindStringSubmatch(body)
-
-	if len(matches) < 2 || matches[1] != "0" {
-		return "Error", fmt.Errorf("Error code: %v", matches)
-	}
-
-	return resp.Status, nil
+	return CheckResponseCode(resp, err)
 }

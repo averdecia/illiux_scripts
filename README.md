@@ -17,3 +17,9 @@ Los dos posibles comandos son:
 Este comando descarga el archivo de NC y lo lee, por cada elemento leido, se envia un request a illiux para adicionar la subscripcion
 2. **delete**: 
 Este comando descarga el archivo de NC y lo lee, por cada elemento leido, se envia un request a illiux para eliminar el cliente
+3. **mail**: 
+Este comando genera requests a engagement con una plantilla
+./illiux_scripts mail http://engagement.clarovideo.net 2 ./error.csv /myEntryFile.csv cd-creditcard-update M41L3R L03LL7 
+El excel debe tener la forma:
+email, gamificationId
+

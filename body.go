@@ -1,88 +1,64 @@
 package main
 
 // ObtenerClienteBody used on the show client request
-const ObtenerClienteBody = `<?xml version=\"1.0\" encoding=\"UTF-8\"?> 
+const ObtenerClienteBody = `<?xml version="1.0" encoding="UTF-8"?> 
 <SOAP-ENV:Envelope
-    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
-    xmlns:ns1=\"https://plazavip.clarodrive.com/dla/soap/\"
-    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:ns1="https://plazavip.clarodrive.com/dla/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
     <SOAP-ENV:Body>
         <ns1:obtenerCliente>
-            <id xsi:type=\"xsd:int\">%s</id>
+            <id xsi:type="xsd:int">%s</id>
         </ns1:obtenerCliente>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`
 
 // ActualizarClienteBody used on the update client request
-const ActualizarClienteBody = `<?xml version=\"1.0\" encoding=\"UTF-8\"?> 
+const ActualizarClienteBody = `<?xml version="1.0" encoding="UTF-8"?> 
 <SOAP-ENV:Envelope
-    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
-    xmlns:ns1=\"https://plazavip.clarodrive.com/dla/soap/\"
-    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:ns1="https://plazavip.clarodrive.com/dla/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
     <SOAP-ENV:Body>
         <ns1:actualizaCliente>
-            <info xsi:type=\"xsd:string\">
-                <peticion>
-                    <id>
-                        <![CDATA[%s]]>
-                    </id>
-                    <nombre>
-                        <![CDATA[%s]]>
-                    </nombre>
-                    <apellidoPaterno>
-                        <![CDATA[%s]]>
-                    </apellidoPaterno>
-                    <email>
-                        <![CDATA[%s]]>
-                    </email>
-                    <telefonoTelmex>
-                        <![CDATA[3133263499]]>
-                    </telefonoTelmex>
-                    <formaPago>
-                        <![CDATA[2]]>
-                    </formaPago>
-                </peticion>
-            </info>
+        <info xsi:type="xsd:string">
+        &lt;peticion&gt;
+        &lt;id&gt;%s&lt;/id&gt;
+        &lt;nombre&gt;%s&lt;/nombre&gt;
+        &lt;apellidoPaterno&gt;%s&lt;/apellidoPaterno&gt;
+        &lt;email&gt;%s&lt;/email&gt;
+        &lt;telefonoTelmex&gt;%s&lt;/telefonoTelmex&gt;
+        &lt;formaPago&gt;%s&lt;/formaPago&gt;
+        &lt;/peticion&gt;
+        </info>
         </ns1:actualizaCliente>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`
 
 // AdicionarClienteBody used on the add client
-const AdicionarClienteBody = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>  
+const AdicionarClienteBody = `<?xml version="1.0" encoding="UTF-8"?>  
 <SOAP-ENV:Envelope
-    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
-    xmlns:ns1=\"https://plazavip.clarodrive.com/dla/soap/\"
-    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:ns1="https://plazavip.clarodrive.com/dla/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
     <SOAP-ENV:Body>
         <ns1:altaCliente>
-            <info xsi:type=\"xsd:string\">
-                <peticion>
-                    <id>
-                        <![CDATA[%s]]>
-                    </id> 
-                    <nombre>
-                        <![CDATA[%s]]>
-                    </nombre> 
-                    <apellidoPaterno>
-                        <![CDATA[%s]]>
-                    </apellidoPaterno> 
-                    <email>
-                        <![CDATA[%s]]>
-                    </email> 
-                    <telefonoTelmex>
-                        <![CDATA[%s]]>
-                    </telefonoTelmex> 
-                    <formaPago>
-                        <![CDATA[%s]]>
-                    </formaPago> 
-                </peticion>
-            </info>
+        <info xsi:type="xsd:string">
+        &lt;peticion&gt;
+        &lt;id&gt;%s&lt;/id&gt;
+        &lt;nombre&gt;%s&lt;/nombre&gt;
+        &lt;apellidoPaterno&gt;%s&lt;/apellidoPaterno&gt;
+        &lt;email&gt;%s&lt;/email&gt;
+        &lt;telefonoTelmex&gt;%s&lt;/telefonoTelmex&gt;
+        &lt;formaPago&gt;%s&lt;/formaPago&gt;
+        &lt;/peticion&gt;
+        </info>
         </ns1:altaCliente>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`
@@ -103,53 +79,66 @@ const AddSubscriptionBody = `<?xml version="1.0" encoding="UTF-8"?>
    <SOAP-ENV:Body>
       <ns1:altaSuscripcionCliente>
          <info xsi:type="xsd:string">
-            <peticion>
-               <idSuscripcion><![CDATA[%s]]></idSuscripcion>
-               <nombre><![CDATA[%s]]></nombre>
-               <item><![CDATA[%s]]></item>
-               <leyenda><![CDATA[%s]]></leyenda>
-               <idCliente><![CDATA[%s]]></idCliente>
-               <fechaInicio><![CDATA[%s]]></fechaInicio>
-               <fechaInicioCiclo><![CDATA[%s]]></fechaInicioCiclo>
-               <idPago><![CDATA[%s]]></idPago>
-               <billingPeriodo><![CDATA[MES]]></billingPeriodo>
-               <billingFrecuencia><![CDATA[1]]></billingFrecuencia>
-               <billingCiclo><![CDATA[0]]></billingCiclo>
-               <billingPrecio><![CDATA[0]]></billingPrecio>
-               <codigoPromo><![CDATA[%s]]></codigoPromo>
-               <trialPeriodo><![CDATA[MES]]></trialPeriodo>
-               <trialFrecuencia><![CDATA[0]]></trialFrecuencia>
-               <trialCiclo><![CDATA[0]]></trialCiclo>
-               <trialPrecio><![CDATA[0]]></trialPrecio>
-            </peticion>
+         &lt;peticion&gt;
+         &lt;idSuscripcion&gt;&lt;![CDATA[%s]]&gt;&lt;/idSuscripcion&gt;
+         &lt;nombre&gt;&lt;![CDATA[%s]]&gt;&lt;/nombre&gt;
+         &lt;item&gt;&lt;![CDATA[%s]]&gt;&lt;/item&gt;
+         &lt;leyenda&gt;&lt;![CDATA[%s]]&gt;&lt;/leyenda&gt;
+         &lt;idCliente&gt;&lt;![CDATA[%s]]&gt;&lt;/idCliente&gt;
+         &lt;fechaInicio&gt;&lt;![CDATA[%s]]&gt;&lt;/fechaInicio&gt;
+         &lt;fechaInicioCiclo&gt;&lt;![CDATA[%s]]&gt;&lt;/fechaInicioCiclo&gt;
+         &lt;idPago&gt;&lt;![CDATA[%s]]&gt;&lt;/idPago&gt;
+         &lt;billingPeriodo&gt;&lt;![CDATA[MES]]&gt;&lt;/billingPeriodo&gt;
+         &lt;billingFrecuencia&gt;&lt;![CDATA[1]]&gt;&lt;/billingFrecuencia&gt;
+         &lt;billingCiclo&gt;&lt;![CDATA[0]]&gt;&lt;/billingCiclo&gt;
+         &lt;billingPrecio&gt;&lt;![CDATA[0]]&gt;&lt;/billingPrecio&gt;
+         &lt;codigoPromo&gt;&lt;![CDATA[%s]]&gt;&lt;/codigoPromo&gt;
+         &lt;trialPeriodo&gt;&lt;![CDATA[MES]]&gt;&lt;/trialPeriodo&gt;
+         &lt;trialFrecuencia&gt;&lt;![CDATA[0]]&gt;&lt;/trialFrecuencia&gt;
+         &lt;trialCiclo&gt;&lt;![CDATA[0]]&gt;&lt;/trialCiclo&gt;
+         &lt;trialPrecio&gt;&lt;![CDATA[0]]&gt;&lt;/trialPrecio&gt;
+         &lt;/peticion&gt;
          </info>
       </ns1:altaSuscripcionCliente>
    </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`
 
 // CancelarSubscription is the body for removing subscription
-const CancelarSubscription = `<?xml version=\"1.0\" encoding=\"UTF-8\"?> 
+const CancelarSubscription = `<?xml version="1.0" encoding="UTF-8"?> 
 <SOAP-ENV:Envelope
-    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"
-    xmlns:ns1=\"https://plazavip.clarodrive.com/dla/soap/\"
-    xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
-    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-    xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\" SOAP-ENV:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:ns1="https://plazavip.clarodrive.com/dla/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
     <SOAP-ENV:Body>
         <ns1:cancelaSuscripcionCliente>
-            <info xsi:type=\"xsd:string\">
-                <peticion>
-                    <idCliente>
-                        <![CDATA[%s]]>
-                    </idCliente>
-                    <idSuscripcion>
-                        <![CDATA[%s]]>
-                    </idSuscripcion>
-                    <fechaFin>
-                        <![CDATA[%s]]>
-                    </fechaFin>
-                </peticion>
-            </info>
+        <info xsi:type="xsd:string">
+        &lt;peticion&gt;
+                   &lt;idCliente&gt;
+                       &lt;![CDATA[%s]]&gt;
+                   &lt;/idCliente&gt;
+                   &lt;idSuscripcion&gt;
+                       &lt;![CDATA[%s]]&gt;
+                   &lt;/idSuscripcion&gt;
+               &lt;/peticion&gt;
+        </info>
         </ns1:cancelaSuscripcionCliente>
     </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>`
+
+const SendEmailBody = `{
+	"service": "CLARODRIVE",
+	"region": "MX",
+	"type": "%s",
+	"email": "%s",
+	"user_id": "%s",
+	"variables": {
+			"email": "%s",
+			"last_active_date": "26/05/2021"
+		},
+	"extras": {
+		"subject": "Actualiza tu información de pago"
+	},
+	"dryrun": false
+}`
